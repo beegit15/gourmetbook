@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gourmetbook/Providers/authProvider.dart';
 import 'package:gourmetbook/View/signUp/signup_screen.dart';
 import 'package:gourmetbook/helpers/const.dart';
+import 'package:gourmetbook/routes/goRouter.dart';
 import 'package:gourmetbook/widgets/alreadyHaveAccount.dart';
 import 'package:gourmetbook/widgets/buttton.dart';
 import 'package:provider/provider.dart';
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({
+class PassLostForm extends StatelessWidget {
+  const PassLostForm({
     Key? key,
   }) : super(key: key);
 
@@ -18,6 +20,7 @@ class LoginForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            controller: authProvider.emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: kPrimaryColor,
@@ -30,46 +33,12 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: TextFormField(
-              textInputAction: TextInputAction.done,
-              obscureText: authProvider.showPassworld,
-              cursorColor: kPrimaryColor,
-              decoration: InputDecoration(
-                hintText: "Your password",
-                prefixIcon: const Padding(
-                  padding: EdgeInsets.all(defaultPadding),
-                  child: Icon(Icons.lock),
-                ),
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  child: InkWell(
-                      onTap: () {
-                        //change the passworld
-                        authProvider.toggleShowPassworld();
-                        print("fuuuck");
-                      },
-                      child: Icon(authProvider.showPassworld
-                          ? Icons.visibility
-                          : Icons.visibility_off)),
-                ),
-              ),
-            ),
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SignUpScreen();
-                      },
-                    ),
-                  );
+                  goRouter.go("/login");
                 },
                 child: const Text(
                   "forget your passworld ?",
@@ -87,25 +56,17 @@ class LoginForm extends StatelessWidget {
                 Color.fromARGB(255, 14, 119, 247),
               ]),
               borderRadius: BorderRadius.circular(20),
-              onPressed: () {},
+              onPressed: () {
+                authProvider.sendPasswordResetEmail(
+                  authProvider.emailController.value.text,
+                );
+              },
               child: Text(
-                "Login".toUpperCase(),
+                "Send Reset mail".toUpperCase(),
               ),
             ),
           ),
           const SizedBox(height: defaultPadding),
-          AlreadyHaveAnAccountCheck(
-            press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SignUpScreen();
-                  },
-                ),
-              );
-            },
-          ),
         ],
       ),
     );

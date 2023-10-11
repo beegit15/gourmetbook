@@ -1,0 +1,31 @@
+{
+    "welcome": "Welcome to My App",
+    "bottom_bar_buttons": {
+        "explore": "Explore",
+        "wishlists": "Wishlists",
+        "trips": "Trips",
+        "inbox": "Inbox",
+        "profile": "Profile"
+    },
+    "search_bar": {
+        "where_to": "Where to?",
+        "anywhere": "Anywhere",
+        "anyweek": "Any week",
+        "addguests": "Add guests"
+    },
+    "map": "Map",
+    "advert_list_card": {
+        "hosted_by": "Hosted by {}",
+        "price_per_night": "{} ₺ night"
+    },
+    "no_exact_matches": "No exact matches",
+    "x_adverts_found": "{} adverts found",
+    "filter_variables": {
+        "omg": "OMG!",
+        "design": "Design",
+        "arctic": "Arctic",
+        "tropical": "Tropical",
+        "windmills": "Windmills",
+        "surfing": "Surfing"
+    }
+}

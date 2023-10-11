@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gourmetbook/View/forgetPass/component/forgotPassFrom.dart';
 import 'package:gourmetbook/helpers/const.dart';
 import 'package:gourmetbook/View/login/component/login_form.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class ForgotPass extends StatelessWidget {
+  const ForgotPass({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Sign In",
+                "Passworld Lost ?",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -24,9 +25,16 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: defaultPadding * 2,
               ),
+              const Text(
+                "Please enter your email",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w100),
+              ),
               Container(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  child: const LoginForm()),
+                  child: const PassLostForm()),
               // LoginAndSignupBtn(),
             ],
           ),

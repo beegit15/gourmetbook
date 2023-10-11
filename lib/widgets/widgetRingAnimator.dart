@@ -101,9 +101,11 @@ class _WidgetAnimatorState extends State<WidgetRingAnimator>
     final decodeImage = await decodeImageFromList(bytes);
     image.add(decodeImage);
 
-    setState(() {
-      image = image;
-    });
+    if (mounted) {
+      setState(() {
+        image = image;
+      });
+    }
   }
 
   void initUiImages() async {
