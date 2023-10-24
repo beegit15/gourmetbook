@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gourmetbook/Providers/HomeProvider.dart';
+import 'package:gourmetbook/Providers/addRestoEventsprovider.dart';
 import 'package:gourmetbook/Providers/authProvider.dart';
 import 'package:gourmetbook/View/login/login.dart';
 import 'package:gourmetbook/View/welcome/welcome.dart';
@@ -24,6 +25,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => Auth()),
     ChangeNotifierProvider(create: (_) => homeProvider()),
+    ChangeNotifierProvider(create: (_) => addRestoEventProvider()),
   ], child: MyApp()));
 }
 

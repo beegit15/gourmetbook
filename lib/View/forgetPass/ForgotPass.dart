@@ -32,6 +32,7 @@ class ForgotPass extends StatelessWidget {
                     fontSize: 20,
                     fontWeight: FontWeight.w100),
               ),
+              const SizedBox(height: defaultPadding),
               Container(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: const PassLostForm()),

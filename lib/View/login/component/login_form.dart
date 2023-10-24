@@ -66,7 +66,7 @@ class LoginForm extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  goRouter.go("/PassRecovery");
+                  goRouter.push("/PassRecovery");
                 },
                 child: const Text(
                   "forget your passworld ?",
@@ -97,7 +97,7 @@ class LoginForm extends StatelessWidget {
           const SizedBox(height: defaultPadding),
           AlreadyHaveAnAccountCheck(
             press: () {
-              goRouter.go("/signUp");
+              goRouter.push("/signUp");
             },
           ),
         ],

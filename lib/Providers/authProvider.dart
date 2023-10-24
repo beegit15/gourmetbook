@@ -143,7 +143,7 @@ class Auth with ChangeNotifier {
     try {
       _status = Status.Authenticating;
       notifyListeners();
-      EasyLoading.show(status: 'Regisring...');
+      EasyLoading.show(status: 'Signing In...');
       final UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       if (result.user != null) {
@@ -189,12 +189,14 @@ class Auth with ChangeNotifier {
     _auth.signOut();
     _status = Status.Unauthenticated;
     notifyListeners();
+    goRouter.go("/");
     return Future.delayed(Duration.zero);
   }
 
   toggleShowPassworld() {
     _showPassworld = !_showPassworld;
     print("hello");
+
     notifyListeners();
   }
 

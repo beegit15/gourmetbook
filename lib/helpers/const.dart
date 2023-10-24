@@ -8,6 +8,7 @@ const double defaultPadding = 16.0;
 
 class ColorName {
   ColorName._();
+  static const Color blue = Color.fromARGB(255, 14, 119, 247);
 
   /// Color: #000000
   static const Color black = Color(0xFF000000);

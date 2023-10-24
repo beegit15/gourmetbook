@@ -33,20 +33,6 @@ class PassLostForm extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InkWell(
-                onTap: () {
-                  goRouter.go("/login");
-                },
-                child: const Text(
-                  "forget your passworld ?",
-                  style: TextStyle(color: kPrimaryColor),
-                ),
-              ),
-            ],
-          ),
           const SizedBox(height: defaultPadding),
           Hero(
             tag: "login_btn",

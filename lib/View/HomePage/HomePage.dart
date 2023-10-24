@@ -2,6 +2,8 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:gourmetbook/View/HomePage/exploreView/View/exploreMap.dart';
+import 'package:gourmetbook/View/Profile/Profile.dart';
 import "package:latlong2/latlong.dart" as latLng;
 
 import 'package:gourmetbook/Providers/HomeProvider.dart';
@@ -24,19 +26,10 @@ class HomePage extends StatelessWidget {
     var provider = Provider.of<homeProvider>(context, listen: true);
     return Scaffold(
       body: provider.currentIndex == 0
-          ? FlutterMap(
-              options: const MapOptions(
-                initialCenter: latLng.LatLng(51.509364, -0.128928),
-                zoom: 3.2,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.app',
-                ),
-              ],
-            )
-          : Scaffold(),
+          ? ExploreMap()
+          : provider.currentIndex == 3
+              ? Profile()
+              : Scaffold(),
       bottomNavigationBar: buildBottomBar(context),
     );
   }
@@ -49,7 +42,7 @@ class HomePage extends StatelessWidget {
         unselectedFontSize: 11.5,
         iconSize: 25,
         currentIndex: provider.currentIndex,
-        selectedItemColor: ColorName.red,
+        selectedItemColor: ColorName.blue,
         unselectedIconTheme: const IconThemeData(color: ColorName.grey),
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
@@ -60,46 +53,37 @@ class HomePage extends StatelessWidget {
             icon: Assets.svg.icSearch.svg(
               height: 25,
               color: provider.currentIndex == 0
-                  ? ColorName.red
+                  ? ColorName.blue
                   : ColorName.darkGrey,
             ),
-            label: "explore",
+            label: "Explore",
           ),
           BottomNavigationBarItem(
             icon: Assets.svg.icFav.svg(
               color: provider.currentIndex == 1
-                  ? ColorName.red
+                  ? ColorName.blue
                   : ColorName.darkGrey,
               height: 25,
             ),
-            label: "wishlists",
-          ),
-          BottomNavigationBarItem(
-            icon: Assets.svg.icAirbnb.svg(
-              color: provider.currentIndex == 2
-                  ? ColorName.red
-                  : ColorName.darkGrey,
-              height: 25,
-            ),
-            label: "trips",
+            label: "Wishlists",
           ),
           BottomNavigationBarItem(
             icon: Assets.svg.icInbox.svg(
-              color: provider.currentIndex == 3
-                  ? ColorName.red
+              color: provider.currentIndex == 2
+                  ? ColorName.blue
                   : ColorName.darkGrey,
               height: 25,
             ),
-            label: "inbox",
+            label: "Reservations",
           ),
           BottomNavigationBarItem(
             icon: Assets.svg.icProfile.svg(
-              color: provider.currentIndex == 4
-                  ? ColorName.red
+              color: provider.currentIndex == 3
+                  ? ColorName.blue
                   : ColorName.darkGrey,
               height: 25,
             ),
-            label: "profile",
+            label: "Profile",
           ),
         ],
       ),

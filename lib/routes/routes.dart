@@ -6,13 +6,15 @@ import 'package:gourmetbook/View/login/login.dart';
 import 'package:gourmetbook/View/signUp/signup_screen.dart';
 import 'package:gourmetbook/View/splash/splash.dart';
 
+import '../View/details/details.dart';
+
 // later home page can have more elemetns
 enum Routes {
   home,
   login,
   SignUp,
   PassRecovery,
-  etage,
+  details,
   etiquetage,
   rapidRead,
   about,
@@ -32,7 +34,7 @@ enum Routes {
         Routes.PassRecovery: '/PassRecovery',
         Routes.etiquetage: '/etiquetage',
         Routes.settings: '/settings',
-        Routes.etage: '/etage',
+        Routes.details: '/details',
         Routes.rapidRead: '/rapidRead',
         Routes.about: '/about',
         Routes.readers: '/settings/readers',
@@ -53,6 +55,7 @@ enum Routes {
             Routes.splash: (context, state) => const Splash(),
             Routes.home: (context, state) => HomePage(),
             Routes.PassRecovery: (context, state) => ForgotPass(),
+            Routes.details: (context, state) => Details(),
           };
 
   static String getRoute(Routes route) => _routes[route]!;

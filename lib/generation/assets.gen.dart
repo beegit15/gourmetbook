@@ -11,6 +11,41 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 
+class $AssetsIconGen {
+  const $AssetsIconGen();
+
+  /// File path: assets/icon/add-image.png
+  AssetGenImage get addImage =>
+      const AssetGenImage('assets/icon/add-image.png');
+
+  /// File path: assets/icon/ic_arctic.jpg
+  AssetGenImage get icArctic =>
+      const AssetGenImage('assets/icon/ic_arctic.jpg');
+
+  /// File path: assets/icon/ic_design.jpg
+  AssetGenImage get icDesign =>
+      const AssetGenImage('assets/icon/ic_design.jpg');
+
+  /// File path: assets/icon/ic_omg.jpg
+  AssetGenImage get icOmg => const AssetGenImage('assets/icon/ic_omg.jpg');
+
+  /// File path: assets/icon/ic_surfing.jpg
+  AssetGenImage get icSurfing =>
+      const AssetGenImage('assets/icon/ic_surfing.jpg');
+
+  /// File path: assets/icon/ic_tropical.jpg
+  AssetGenImage get icTropical =>
+      const AssetGenImage('assets/icon/ic_tropical.jpg');
+
+  /// File path: assets/icon/ic_windmills.jpg
+  AssetGenImage get icWindmills =>
+      const AssetGenImage('assets/icon/ic_windmills.jpg');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [addImage, icArctic, icDesign, icOmg, icSurfing, icTropical, icWindmills];
+}
+
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
@@ -156,6 +191,7 @@ class $AssetsSvgGen {
 class Assets {
   Assets._();
 
+  static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLangGen lang = $AssetsLangGen();
