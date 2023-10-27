@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,8 +37,6 @@ class addRestoEventProvider with ChangeNotifier {
 
   late Future<TimeOfDay?> selectedTime;
   onMenuItemSelected(int value) {
-    print(value);
-    print("heloooooooooooooooooooooooooo");
     if (value == UserType.organizer.index) {
       selectedValuFromPopUpMenu = UserType.organizer.name;
     } else if (value == UserType.restoOwner.index) {
@@ -64,9 +61,6 @@ class addRestoEventProvider with ChangeNotifier {
       EasyLoading.show(
           status: 'Publishing...', maskType: EasyLoadingMaskType.black);
 
-      print(name);
-      print(country);
-      print(city);
       var uuid = Uuid();
       GeoPoint location = await determinePosition();
 
@@ -208,7 +202,6 @@ class addRestoEventProvider with ChangeNotifier {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return null;
-      print("shiiiiiiiiiiiiit");
       item.itemImg = image.path;
       notifyListeners();
     } on PlatformException catch (e) {

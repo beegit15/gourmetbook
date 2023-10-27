@@ -53,7 +53,8 @@ class ExploreView extends StatelessWidget {
 
         // APPLE SHEET LINE
 
-        _advertDataText(draggableHeight, context),
+        if (authProvider.userModel == UserType.User)
+          _advertDataText(draggableHeight, context),
 
         _sheetLine(),
         _mapButton(context),

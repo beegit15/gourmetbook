@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:gourmetbook/View/details/components/add.dart';
+import 'package:gourmetbook/helpers/const.dart';
 
 class MenuItemWidget extends StatelessWidget {
   final String? itemName;
   final String? itemAmount;
   final String? itemImg;
+  final bool selected;
 
   MenuItemWidget({
     Key? key,
     required this.itemName,
     required this.itemAmount,
     required this.itemImg,
+    required this.selected,
   }) : super(key: key);
 
   @override
@@ -107,7 +110,31 @@ class MenuItemWidget extends StatelessWidget {
                   Positioned(
                     bottom: 0,
                     right: 0,
-                    child: AddButtonWidget(),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15.0),
+                            bottomRight: Radius.circular(15.0),
+                          ),
+                        ),
+                        child: selected
+                            ? Icon(
+                                Icons.check,
+                                color: ColorName.white,
+                                size: 20,
+                              )
+                            : Icon(
+                                Icons.add,
+                                color: ColorName.white,
+                                size: 20,
+                              ),
+                      ),
+                    ),
                   )
                 ],
               )),

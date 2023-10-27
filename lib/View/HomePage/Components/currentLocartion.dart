@@ -7,7 +7,7 @@ class CLocationLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CurrentLocationLayer(
-      followOnLocationUpdate: FollowOnLocationUpdate.always,
+      followOnLocationUpdate: FollowOnLocationUpdate.once,
       turnOnHeadingUpdate: TurnOnHeadingUpdate.never,
       style: const LocationMarkerStyle(
         marker: DefaultLocationMarker(

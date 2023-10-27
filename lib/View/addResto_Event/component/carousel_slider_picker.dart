@@ -46,7 +46,6 @@ class _CarouselSliderState extends State<CarouselSliderPicker> {
                 ),
                 onTap: () {
                   provider.pickImage(false);
-                  print("hello");
                 },
               );
             } else {

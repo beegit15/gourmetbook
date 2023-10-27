@@ -51,8 +51,6 @@ class Auth with ChangeNotifier {
       _auth.authStateChanges().map(_userFromFirebase);
 
   onMenuItemSelected(int value) {
-    print(value);
-    print("heloooooooooooooooooooooooooo");
     if (value == UserType.User.index + 1) {
       selectedValuFromPopUpMenu = UserType.User.name;
     } else if (value == UserType.organizer.index + 1) {
@@ -113,11 +111,8 @@ class Auth with ChangeNotifier {
     try {
       _status = Status.Registering;
       notifyListeners();
-      EasyLoading.show(status: 'Regisring...');
+      EasyLoading.show(status: 'Registering...');
 
-      print(email);
-      print(password);
-      print(username);
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (result.user != null) {
@@ -189,13 +184,11 @@ class Auth with ChangeNotifier {
     _auth.signOut();
     _status = Status.Unauthenticated;
     notifyListeners();
-    goRouter.go("/");
-    return Future.delayed(Duration.zero);
+    goRouter.go("/login");
   }
 
   toggleShowPassworld() {
     _showPassworld = !_showPassworld;
-    print("hello");
 
     notifyListeners();
   }
@@ -204,7 +197,6 @@ class Auth with ChangeNotifier {
     _loading = true;
     // notifyListeners();
     if (_auth.currentUser == null) {
-      print("zeeeeeb5555");
       _isLoggedIn = false;
       notifyListeners();
       goRouter.go("/login");
@@ -229,13 +221,5 @@ class Auth with ChangeNotifier {
       );
       goRouter.go("/homepage");
     }
-  }
-
-  login() {
-    EasyLoading.show(status: 'loading...');
-    print("hello");
-    Timer(Duration(seconds: 10), () {
-      EasyLoading.dismiss();
-    });
   }
 }

@@ -20,7 +20,7 @@ class AddResto_Event extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: const Text(
-              "Add new Event/Restorant",
+              "Add new Event/Restaurant",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 30,

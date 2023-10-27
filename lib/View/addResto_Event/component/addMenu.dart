@@ -56,7 +56,6 @@ class _CarouselSliderState extends State<AddMenuItems> {
           onTap: () {
             _dialogBuilder(context);
             //authProvider.pickImage(true);
-            print("hello");
           },
         ),
       ],

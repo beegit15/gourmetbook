@@ -170,9 +170,9 @@ class ExploreMap extends StatelessWidget {
         child: DraggableScrollableSheet(
           controller: draggableScrollController,
           snap: true,
-          initialChildSize: 1,
+          initialChildSize: 0.92,
           minChildSize: .1,
-          maxChildSize: 1,
+          maxChildSize: 0.92,
           builder: (context, scrollController) {
             var provider = Provider.of<homeProvider>(context, listen: true);
 

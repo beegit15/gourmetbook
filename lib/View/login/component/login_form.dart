@@ -52,7 +52,6 @@ class LoginForm extends StatelessWidget {
                       onTap: () {
                         //change the passworld
                         authProvider.toggleShowPassworld();
-                        print("fuuuck");
                       },
                       child: Icon(authProvider.showPassworld
                           ? Icons.visibility

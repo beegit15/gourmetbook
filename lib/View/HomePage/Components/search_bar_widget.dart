@@ -63,7 +63,7 @@ class SearchBarWidget extends StatelessWidget {
         children: [
           Text("Where to ?"),
           Text(
-            'Events • Restorants • Eny week ',
+            'Events • Restaurant • Any week ',
             style: TextStyle(fontSize: 12),
           ),
         ],

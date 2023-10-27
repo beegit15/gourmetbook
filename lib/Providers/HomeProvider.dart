@@ -8,6 +8,7 @@ import 'package:gourmetbook/Models/advert.dart';
 import 'package:gourmetbook/Models/failure.dart';
 import 'package:gourmetbook/View/HomePage/HomePage.dart';
 import 'package:gourmetbook/View/HomePage/exploreView/service/explore_service.dart';
+import 'package:gourmetbook/routes/goRouter.dart';
 import "package:latlong2/latlong.dart" as latLng;
 
 class homeProvider with ChangeNotifier {
@@ -39,14 +40,11 @@ class homeProvider with ChangeNotifier {
         : 0.0;
 
     if (size < 0.121) {
-      print("objectheerrrrrrrrrrrrrrrrrrrrre");
       mapButtonOpacity = 0.0;
 
       bottomBarHeight = 0;
       notifyListeners();
     } else {
-      print("objectheerrrrrrrrrrrrrrrrrrrrre111111111111111111111111");
-
       mapButtonOpacity = draggableScrollController.size;
       bottomBarHeight = draggableScrollController.size *
           (kBottomNavigationBarHeight +
@@ -56,9 +54,6 @@ class homeProvider with ChangeNotifier {
   }
 
   void addL(BuildContext context) {
-    print("herrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrro 1111111111111");
-
-    print("herrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrro 00000");
     draggableScrollController.addListener(listen);
   }
 
@@ -145,7 +140,12 @@ class homeProvider with ChangeNotifier {
     for (Advert i in adverts!) {
       markers.add(Marker(
           point: latLng.LatLng(i.location.latitude, i.location.longitude),
-          child: const Icon(Icons.location_on)));
+          child: InkWell(
+              onTap: () {
+                selectAdvert(i);
+                goRouter.push("/details");
+              },
+              child: const Icon(Icons.location_on))));
     }
     return markers;
   }

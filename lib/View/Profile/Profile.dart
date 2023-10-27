@@ -92,31 +92,6 @@ class Profile extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     child: const ListTile(
-                      leading: Icon(
-                        Icons.history,
-                        color: Colors.black54,
-                      ),
-                      title: Text(
-                        'Purchase History',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                    color: Colors.white70,
-                    margin:
-                        const EdgeInsets.only(left: 35, right: 35, bottom: 10),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    child: const ListTile(
                       leading: Icon(Icons.help_outline, color: Colors.black54),
                       title: Text(
                         'Help & Support',
@@ -142,7 +117,7 @@ class Profile extends StatelessWidget {
                       onTap: () {
                         authProvider.signOut();
                       },
-                      child: ListTile(
+                      child: const ListTile(
                         leading: Icon(
                           Icons.logout,
                           color: Colors.black54,

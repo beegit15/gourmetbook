@@ -2,8 +2,10 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:gourmetbook/Providers/ReservationProvider.dart';
 import 'package:gourmetbook/View/HomePage/exploreView/View/exploreMap.dart';
 import 'package:gourmetbook/View/Profile/Profile.dart';
+import 'package:gourmetbook/View/reservations/reservationsPage.dart';
 import "package:latlong2/latlong.dart" as latLng;
 
 import 'package:gourmetbook/Providers/HomeProvider.dart';
@@ -27,15 +29,19 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: provider.currentIndex == 0
           ? ExploreMap()
-          : provider.currentIndex == 3
-              ? Profile()
-              : Scaffold(),
+          : provider.currentIndex == 2
+              ? ReservationsView()
+              : provider.currentIndex == 3
+                  ? Profile()
+                  : Scaffold(),
       bottomNavigationBar: buildBottomBar(context),
     );
   }
 
   Widget buildBottomBar(BuildContext context) {
     var provider = Provider.of<homeProvider>(context, listen: true);
+    var reservationProvider =
+        Provider.of<ReservationProvider>(context, listen: true);
     return ScrollToHideWidget(
       child: BottomNavigationBar(
         selectedFontSize: 12,
@@ -46,6 +52,9 @@ class HomePage extends StatelessWidget {
         unselectedIconTheme: const IconThemeData(color: ColorName.grey),
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
+          if (index == 2) {
+            reservationProvider.getMyReservation(context);
+          }
           provider.changeIndex(index);
         },
         items: [

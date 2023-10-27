@@ -63,6 +63,5 @@ class _FilterBarWidgetState extends State<FilterBarWidget> {
   void _onFilterTap(viewModel, index) async {
     // TODO: Implement filter logic
     viewModel.setSelectedFilterIndex = index;
-    debugPrint('test $index');
   }
 }
