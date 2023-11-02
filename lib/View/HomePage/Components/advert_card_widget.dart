@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gourmetbook/Models/advert.dart';
+import 'package:gourmetbook/Providers/authProvider.dart';
 import 'package:gourmetbook/View/HomePage/Components/carousel_slider.dart';
 import 'package:gourmetbook/generation/assets.gen.dart';
 import 'package:gourmetbook/helpers/const.dart';
+import 'package:provider/provider.dart';
 
 class AdvertCardWidget extends StatelessWidget {
   final Advert advert;
@@ -12,6 +14,7 @@ class AdvertCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var images = advert.advertPhotos;
+    var authProvider = Provider.of<Auth>(context, listen: true);
 
     return Container(
       padding: EdgeInsets.all(3),
@@ -42,10 +45,17 @@ class AdvertCardWidget extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: Padding(
                   padding: EdgeInsets.all(defaultPadding),
-                  child: Assets.svg.icFav.svg(
-                    color: ColorName.white,
-                    width: 25,
-                    height: 25,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      size: 25,
+                      color: authProvider.isfav(advert.id)
+                          ? ColorName.red
+                          : ColorName.white,
+                    ),
+                    onPressed: () {
+                      authProvider.addToWishList(advert.id);
+                    },
                   ),
                 ),
               )

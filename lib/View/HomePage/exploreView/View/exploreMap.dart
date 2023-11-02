@@ -23,6 +23,8 @@ class ExploreMap extends StatelessWidget {
         (defaultPadding +
             80 +
             MediaQueryData.fromView(View.of(context)).padding.bottom);
+    var provider = Provider.of<homeProvider>(context, listen: true);
+
     return SafeArea(
       child: Stack(
         children: [
@@ -123,7 +125,6 @@ class ExploreMap extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                print("here we go");
                 provider.determinePosition();
               },
               child: Container(

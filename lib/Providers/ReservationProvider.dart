@@ -48,6 +48,14 @@ class ReservationProvider with ChangeNotifier {
   }
 
   submitReservation(String advertid, String useruid, String ownerId) async {
+    if (endTime == null || startTime == null) {
+      EasyLoading.showToast("please select\n your reservatin time (From ,To)");
+      return;
+    } else if (day == null) {
+      EasyLoading.showToast("please select\n your reservatin day");
+      return;
+    }
+
     EasyLoading.show(
         status: 'Sending your reservation...',
         maskType: EasyLoadingMaskType.black);
@@ -76,6 +84,7 @@ class ReservationProvider with ChangeNotifier {
       day = null;
       notifyListeners();
       EasyLoading.dismiss();
+      EasyLoading.showSuccess("Reservation sent");
     });
   }
 
@@ -165,6 +174,8 @@ class ReservationProvider with ChangeNotifier {
           .collection('Reservations')
           .doc(x.id)
           .update({"confirmed": true}).then((snapshot) {
+        EasyLoading.showSuccess("Reservation confirmed");
+
         notifyListeners();
       });
     } on SocketException {

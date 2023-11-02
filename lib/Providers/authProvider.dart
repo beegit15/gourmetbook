@@ -80,7 +80,6 @@ class Auth with ChangeNotifier {
     _auth = FirebaseAuth.instance;
     _fireStore = FirebaseFirestore.instance;
     //listener for authentication changes such as user sign in and sign out
-    _auth.authStateChanges().listen(onAuthStateChanged);
   }
 
   Future<void> onAuthStateChanged(User? firebaseUser) async {
@@ -103,10 +102,11 @@ class Auth with ChangeNotifier {
         email: user.email,
         displayName: user.displayName,
         phoneNumber: user.phoneNumber,
+        wishList: [],
         photoUrl: user.photoURL);
   }
 
-  Future<UserModel?> registerWithEmailAndPassword(
+  Future<bool?> registerWithEmailAndPassword(
       String email, String password, String username) async {
     try {
       _status = Status.Registering;
@@ -119,14 +119,17 @@ class Auth with ChangeNotifier {
         await _fireStore.collection("users").doc(result.user!.uid).set({
           "username": username,
           "email": result.user!.email,
-          "accountType": selectedValuFromPopUpMenu
+          "accountType": selectedValuFromPopUpMenu,
+          "whishList": [],
         }).then((value) {
-          EasyLoading.dismiss();
+          EasyLoading.showSuccess("Account created");
         });
       }
-      goRouter.go("/homepage");
-      return _userFromFirebase(result.user);
+
+      goRouter.go("/login");
+      return true;
     } catch (e) {
+      EasyLoading.showError("Verify your email and retry");
       print("Error on the new user registration = " + e.toString());
       _status = Status.Unauthenticated;
       notifyListeners();
@@ -141,6 +144,7 @@ class Auth with ChangeNotifier {
       EasyLoading.show(status: 'Signing In...');
       final UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+
       if (result.user != null) {
         await _fireStore.collection("users").doc(result.user!.uid).get().then(
           (DocumentSnapshot doc) {
@@ -151,6 +155,7 @@ class Auth with ChangeNotifier {
                 uid: doc.id,
                 displayName: data["username"],
                 email: data["email"],
+                wishList: data["whishList"] != null ? data["whishList"] : [],
                 userType: type!);
             // ...
           },
@@ -163,9 +168,42 @@ class Auth with ChangeNotifier {
       goRouter.go("/homepage");
       return true;
     } catch (e) {
-      print("Error on the sign in = " + e.toString());
+      if (e is FirebaseAuthException) {
+        if (e.code == "INVALID_LOGIN_CREDENTIALS") {
+          EasyLoading.showError("Wrong email/password combination.");
+        } else {
+          print(e.code);
+          EasyLoading.showError("Login failed. Please try again.");
+        }
+      }
+
       _status = Status.Unauthenticated;
       notifyListeners();
+      return false;
+    }
+  }
+
+  addToWishList(String advertId) async {
+    if (isfav(advertId)) {
+      _userModel!.removeFromWishList(advertId);
+
+      await _fireStore.collection("users").doc(_userModel!.uid).update({
+        "whishList": _userModel!.wishList,
+      });
+    } else {
+      _userModel!.addToWishList(advertId);
+
+      await _fireStore.collection("users").doc(_userModel!.uid).update({
+        "whishList": _userModel!.wishList,
+      });
+    }
+    notifyListeners();
+  }
+
+  isfav(String advertId) {
+    if (_userModel!.wishList!.contains(advertId)) {
+      return true;
+    } else {
       return false;
     }
   }
@@ -210,10 +248,20 @@ class Auth with ChangeNotifier {
           final data = doc.data() as Map<String, dynamic>;
           UserType? type = userTypeMap[data["accountType"]];
 
+          List<String> wishList = [];
+
+          try {
+            data["whishList"].forEach((i) {
+              wishList.add(i);
+            });
+          } catch (e) {
+            wishList = [];
+          }
           _userModel = UserModel(
               uid: doc.id,
               displayName: data["username"],
               email: data["email"],
+              wishList: wishList,
               userType: type!);
           // ...
         },

@@ -14,7 +14,8 @@ import "package:latlong2/latlong.dart" as latLng;
 class homeProvider with ChangeNotifier {
   int _currentIndex = 0;
   int get currentIndex => _currentIndex;
-
+  bool _searching = false;
+  bool get searching => _searching;
   homeProvider() {
     _state = AppState.IDLE;
     adverts = [];
@@ -23,6 +24,11 @@ class homeProvider with ChangeNotifier {
   Advert? selectedAdvert = null;
   selectAdvert(Advert x) {
     selectedAdvert = x;
+    notifyListeners();
+  }
+
+  setsearching(bool value) {
+    _searching = value;
     notifyListeners();
   }
 
@@ -88,6 +94,27 @@ class homeProvider with ChangeNotifier {
   }
 
   List<Advert>? adverts = [];
+  List<Advert>? wishList = [];
+  List<Advert>? suggestions = [];
+
+  onSearchValueChanged(String query) {
+    print(query);
+    suggestions = adverts!
+        .where((suggestion) =>
+            suggestion.name.toLowerCase().contains(query.toLowerCase()) ||
+            suggestion.country.toLowerCase().contains(query.toLowerCase()) ||
+            suggestion.city.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    return suggestions;
+  }
+
+  getWishList(List<String> wishListIds) {
+    wishList =
+        adverts!.where((advert) => wishListIds.contains(advert.id)).toList();
+    return wishList;
+  }
+
   // Get adverts
   Future<void> getAdverts() async {
     try {

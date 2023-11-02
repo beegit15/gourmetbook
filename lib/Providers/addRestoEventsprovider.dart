@@ -93,6 +93,7 @@ class addRestoEventProvider with ChangeNotifier {
         }
         var advert = Advert(
             id: uuid.v1(),
+            name: name,
             country: country,
             city: city,
             advertPhotos: _images,

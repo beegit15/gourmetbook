@@ -14,6 +14,7 @@ enum AdvertFilterType {
 
 class Advert {
   String id;
+  final String name;
   final String country;
   final String city;
   final List<String> advertPhotos;
@@ -27,6 +28,7 @@ class Advert {
   List<MenuItem>? menuItems;
 
   Advert({
+    required this.name,
     required this.id,
     required this.publisher,
     required this.publisherUid,
@@ -43,6 +45,7 @@ class Advert {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        "name": name,
         'country': country,
         'city': city,
         //  'province': province,
@@ -68,6 +71,7 @@ class Advert {
 
     return Advert(
       id: json['id'],
+      name: json['name'],
       country: json['country'],
       city: json['city'],
       //  province: json['province'],

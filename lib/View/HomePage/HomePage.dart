@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:gourmetbook/Providers/ReservationProvider.dart';
 import 'package:gourmetbook/View/HomePage/exploreView/View/exploreMap.dart';
 import 'package:gourmetbook/View/Profile/Profile.dart';
+import 'package:gourmetbook/View/WishList/wishlist.dart';
 import 'package:gourmetbook/View/reservations/reservationsPage.dart';
 import "package:latlong2/latlong.dart" as latLng;
 
@@ -29,11 +30,13 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: provider.currentIndex == 0
           ? ExploreMap()
-          : provider.currentIndex == 2
-              ? ReservationsView()
-              : provider.currentIndex == 3
-                  ? Profile()
-                  : Scaffold(),
+          : provider.currentIndex == 1
+              ? WishListView()
+              : provider.currentIndex == 2
+                  ? ReservationsView()
+                  : provider.currentIndex == 3
+                      ? Profile()
+                      : Scaffold(),
       bottomNavigationBar: buildBottomBar(context),
     );
   }
