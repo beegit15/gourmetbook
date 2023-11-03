@@ -53,9 +53,12 @@ class LoginForm extends StatelessWidget {
                         //change the passworld
                         authProvider.toggleShowPassworld();
                       },
-                      child: Icon(authProvider.showPassworld
-                          ? Icons.visibility
-                          : Icons.visibility_off)),
+                      child: Icon(
+                        authProvider.showPassworld
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: kPrimaryColor,
+                      )),
                 ),
               ),
             ),

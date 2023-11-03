@@ -28,7 +28,7 @@ status for your UI or widgets to listen.
  */
 
 class Auth with ChangeNotifier {
-  bool _showPassworld = false;
+  bool _showPassworld = true;
   bool get showPassworld => _showPassworld;
 
   bool _isLoggedIn = false;
@@ -122,6 +122,10 @@ class Auth with ChangeNotifier {
           "accountType": selectedValuFromPopUpMenu,
           "whishList": [],
         }).then((value) {
+          usernameController.clear();
+          emailController.clear();
+          passController.clear();
+          notifyListeners();
           EasyLoading.showSuccess("Account created");
         });
       }
@@ -150,12 +154,20 @@ class Auth with ChangeNotifier {
           (DocumentSnapshot doc) {
             final data = doc.data() as Map<String, dynamic>;
             UserType? type = userTypeMap[data["accountType"]];
+            List<String> wishList = [];
 
+            try {
+              data["whishList"].forEach((i) {
+                wishList.add(i);
+              });
+            } catch (e) {
+              wishList = [];
+            }
             _userModel = UserModel(
                 uid: doc.id,
                 displayName: data["username"],
                 email: data["email"],
-                wishList: data["whishList"] != null ? data["whishList"] : [],
+                wishList: wishList,
                 userType: type!);
             // ...
           },
