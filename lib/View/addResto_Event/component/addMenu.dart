@@ -243,9 +243,11 @@ class _CarouselSliderState extends State<AddMenuItems> {
                       ]),
                       borderRadius: BorderRadius.circular(20),
                       onPressed: () {
-                        provider.addMenuitem(
+                        bool validated = provider.addMenuitem(
                             nameCon.value.text, priceCon.value.text);
-                        Navigator.of(context).pop();
+                        if (validated) {
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Text("Add")),
                 ),

@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:gourmetbook/Models/UserModel.dart';
 import 'package:gourmetbook/Providers/ReservationProvider.dart';
 import 'package:gourmetbook/View/HomePage/exploreView/View/exploreMap.dart';
 import 'package:gourmetbook/View/Profile/Profile.dart';
@@ -43,6 +44,8 @@ class HomePage extends StatelessWidget {
 
   Widget buildBottomBar(BuildContext context) {
     var provider = Provider.of<homeProvider>(context, listen: true);
+    var auth = Provider.of<Auth>(context, listen: true);
+
     var reservationProvider =
         Provider.of<ReservationProvider>(context, listen: true);
     return ScrollToHideWidget(
@@ -77,7 +80,9 @@ class HomePage extends StatelessWidget {
                   : ColorName.darkGrey,
               height: 25,
             ),
-            label: "Wishlists",
+            label: auth.userModel!.userType == UserType.User
+                ? "Wishlists"
+                : "My Posts",
           ),
           BottomNavigationBarItem(
             icon: Assets.svg.icInbox.svg(

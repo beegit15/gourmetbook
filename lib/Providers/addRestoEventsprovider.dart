@@ -210,11 +210,27 @@ class addRestoEventProvider with ChangeNotifier {
     }
   }
 
-  addMenuitem(String itemtitle, String itemprice) {
-    item.itemName = itemtitle;
-    item.itemPrice = double.parse(itemprice);
-    menuItems.add(item);
-    notifyListeners();
-    item = MenuItem(null, null, null, null);
+  bool addMenuitem(String itemtitle, String itemprice) {
+    print("-----------------------");
+    print(itemtitle);
+    print(itemprice);
+    if (item.itemImg == null) {
+      EasyLoading.showError("Please select an image for your menu item!");
+      return false;
+    } else if (itemtitle.isEmpty) {
+      EasyLoading.showError("Please enter a name for your menu item!");
+      return false;
+    } else if (itemprice.isEmpty) {
+      EasyLoading.showError("Please enter your menu item price!");
+      return false;
+    } else {
+      item.itemPrice = double.parse(itemprice);
+      item.itemName = itemtitle;
+
+      menuItems.add(item);
+      notifyListeners();
+      item = MenuItem(null, null, null, null);
+      return true;
+    }
   }
 }

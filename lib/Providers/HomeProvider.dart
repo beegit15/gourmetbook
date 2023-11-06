@@ -97,6 +97,19 @@ class homeProvider with ChangeNotifier {
   List<Advert>? wishList = [];
   List<Advert>? suggestions = [];
 
+  List<Advert> getMyAdverts(String uid) {
+    List<Advert> myAdverts =
+        adverts!.where((adv) => adv.publisherUid == uid).toList();
+
+    return myAdverts;
+  }
+
+  deleteAdvert(Advert adv) async {
+    await FirebaseFirestore.instance.collection('Adverts').doc(adv.id).delete();
+    adverts!.remove(adv);
+    notifyListeners();
+  }
+
   onSearchValueChanged(String query) {
     print(query);
     suggestions = adverts!

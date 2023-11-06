@@ -1,5 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:gourmetbook/Models/UserModel.dart';
 import 'package:gourmetbook/Models/advert.dart';
 import 'package:gourmetbook/Providers/HomeProvider.dart';
 import 'package:gourmetbook/Providers/ReservationProvider.dart';
@@ -7,6 +8,7 @@ import 'package:gourmetbook/Providers/authProvider.dart';
 import 'package:gourmetbook/View/HomePage/Components/advert_card_widget.dart';
 import 'package:gourmetbook/View/details/components/menuItemWidget.dart';
 import 'package:gourmetbook/helpers/const.dart';
+import 'package:gourmetbook/routes/goRouter.dart';
 import 'package:gourmetbook/widgets/buttton.dart';
 import 'package:provider/provider.dart';
 import 'package:time_range/time_range.dart';
@@ -101,35 +103,61 @@ class Details extends StatelessWidget {
                   }
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: MyElevatedButton(
-                  gradient: const LinearGradient(colors: [
-                    Color.fromARGB(255, 159, 75, 237),
-                    Color.fromARGB(255, 14, 119, 247),
-                  ]),
-                  borderRadius: BorderRadius.circular(20),
-                  onPressed: () {
-                    reservationProvider.submitReservation(
-                      provider.selectedAdvert!.id,
-                      authProvider.userModel!.uid,
-                      provider.selectedAdvert!.publisherUid,
-                    );
-                    // addProvider.uploadAdvert(
-                    //   addProvider.nameController.value.text,
-                    //   addProvider.countryController.value.text,
-                    //   addProvider.cityController.value.text,
-                    //   addProvider.priceController.value.text,
-                    //   context,
-                    //   authProvider.userModel!.displayName!,
-                    //   authProvider.userModel!.uid,
-                    // );
-                  },
-                  child: Text(
-                    "Reserve",
-                  ),
+              if (authProvider.userModel!.userType == UserType.User)
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: MyElevatedButton(
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 159, 75, 237),
+                        Color.fromARGB(255, 14, 119, 247),
+                      ]),
+                      borderRadius: BorderRadius.circular(20),
+                      onPressed: () {
+                        reservationProvider.submitReservation(
+                          provider.selectedAdvert!.id,
+                          authProvider.userModel!.uid,
+                          provider.selectedAdvert!.publisherUid,
+                        );
+
+                        // addProvider.uploadAdvert(
+                        //   addProvider.nameController.value.text,
+                        //   addProvider.countryController.value.text,
+                        //   addProvider.cityController.value.text,
+                        //   addProvider.priceController.value.text,
+                        //   context,
+                        //   authProvider.userModel!.displayName!,
+                        //   authProvider.userModel!.uid,
+                        // );
+                      },
+                      child: const Text(
+                        "Reserve",
+                      )),
                 ),
-              ),
+              if (authProvider.userModel!.uid ==
+                  provider.selectedAdvert!.publisherUid)
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: MyElevatedButton(
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 237, 83, 75),
+                        Color.fromARGB(255, 14, 119, 247),
+                      ]),
+                      borderRadius: BorderRadius.circular(20),
+                      onPressed: () {
+                        provider.deleteAdvert(provider.selectedAdvert!);
+                        goRouter.pop();
+                        // addProvider.uploadAdvert(
+                        //   addProvider.nameController.value.text,
+                        //   addProvider.countryController.value.text,
+                        //   addProvider.cityController.value.text,
+                        //   addProvider.priceController.value.text,
+                        //   context,
+                        //   authProvider.userModel!.displayName!,
+                        //   authProvider.userModel!.uid,
+                        // );
+                      },
+                      child: const Text("delete")),
+                ),
             ],
           ),
         ),
