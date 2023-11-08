@@ -62,9 +62,12 @@ class AdvertCardWidget extends StatelessWidget {
             ],
           ),
 
+          Padding(
+              padding: const EdgeInsets.only(top: defaultPadding),
+              child: Text('${advert.name}')),
           // LOCATION and Star Rating
           Padding(
-            padding: EdgeInsets.only(top: defaultPadding),
+            padding: EdgeInsets.all(defaultPadding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -82,10 +85,6 @@ class AdvertCardWidget extends StatelessWidget {
               ],
             ),
           ),
-
-          Padding(
-              padding: EdgeInsets.all(defaultPadding),
-              child: Text('Owner : ${advert.publisher}')),
 
           // DATE
           Text('${advert.availableDate} - ${advert.availableDate}'),

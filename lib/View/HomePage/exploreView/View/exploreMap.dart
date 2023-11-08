@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:gourmetbook/Models/UserModel.dart';
 import 'package:gourmetbook/Providers/HomeProvider.dart';
+import 'package:gourmetbook/Providers/authProvider.dart';
 import 'package:gourmetbook/View/HomePage/Components/currentLocartion.dart';
 import 'package:gourmetbook/View/HomePage/Components/filter_bar_widget.dart';
 import 'package:gourmetbook/View/HomePage/Components/search_bar_widget.dart';
@@ -24,6 +26,7 @@ class ExploreMap extends StatelessWidget {
             80 +
             MediaQueryData.fromView(View.of(context)).padding.bottom);
     var provider = Provider.of<homeProvider>(context, listen: true);
+    var authprovider = Provider.of<Auth>(context, listen: true);
 
     return SafeArea(
       child: Stack(
@@ -49,7 +52,8 @@ class ExploreMap extends StatelessWidget {
           ),
 
           // APPBAR
-          _appBar(context),
+          if (authprovider.userModel!.userType == UserType.User)
+            _appBar(context),
         ],
       ),
     );

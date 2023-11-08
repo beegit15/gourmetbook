@@ -199,7 +199,7 @@ class ReservationItem extends StatelessWidget {
                             padding: EdgeInsets.all(8.0),
                             //height: 50,
                             child: CardButtonComponent(
-                              title: "Canfirme",
+                              title: "Confirm",
                               onPressed: () {
                                 reservationProvider
                                     .confirmeReservation(reservationModel);
