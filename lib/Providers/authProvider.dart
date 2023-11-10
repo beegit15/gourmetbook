@@ -1,31 +1,285 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:gourmetbook/Models/UserModel.dart';
 import 'package:gourmetbook/routes/goRouter.dart';
 
+enum Status {
+  Uninitialized,
+  Authenticated,
+  Authenticating,
+  Unauthenticated,
+  Registering
+}
+/*
+The UI will depends on the Status to decide which screen/action to be done.
+
+- Uninitialized - Checking user is logged or not, the Splash Screen will be shown
+- Authenticated - User is authenticated successfully, Home Page will be shown
+- Authenticating - Sign In button just been pressed, progress bar will be shown
+- Unauthenticated - User is not authenticated, login page will be shown
+- Registering - User just pressed registering, progress bar will be shown
+
+Take note, this is just an idea. You can remove or further add more different
+status for your UI or widgets to listen.
+ */
+
 class Auth with ChangeNotifier {
-  bool _showPassworld = false;
+  bool _showPassworld = true;
   bool get showPassworld => _showPassworld;
 
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
   bool _loading = false;
   bool get loiding => _loading;
+  String selectedValuFromPopUpMenu = "please select your account type";
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passController = TextEditingController();
+  late FirebaseAuth _auth;
+  late FirebaseFirestore _fireStore;
 
-  toggleShowPassworld() {
-    _showPassworld = !_showPassworld;
-    print("hello");
+  //Default status
+  Status _status = Status.Uninitialized;
+  UserModel? _userModel;
+  Status get status => _status;
+  UserModel? get userModel => _userModel;
+  Stream<UserModel?> get user =>
+      _auth.authStateChanges().map(_userFromFirebase);
+
+  onMenuItemSelected(int value) {
+    if (value == UserType.User.index + 1) {
+      selectedValuFromPopUpMenu = UserType.User.name;
+    } else if (value == UserType.organizer.index + 1) {
+      selectedValuFromPopUpMenu = UserType.organizer.name;
+    } else if (value == UserType.restoOwner.index + 1) {
+      selectedValuFromPopUpMenu = UserType.restoOwner.name;
+    } else {
+      selectedValuFromPopUpMenu = "please select your account type";
+    }
     notifyListeners();
   }
 
-  init() {
-    _loading = true;
-    Timer(Duration(seconds: 10), () {
-      _loading = false;
-      _isLoggedIn = false;
+  getItemSelectedValue() {
+    if (selectedValuFromPopUpMenu == UserType.User.name) {
+      return 1;
+    } else if (selectedValuFromPopUpMenu == UserType.organizer.name) {
+      return 2;
+    } else if (selectedValuFromPopUpMenu == UserType.restoOwner.name) {
+      return 3;
+    } else {
+      return 0;
+    }
+  }
 
+  Auth() {
+    //initialise object
+    _auth = FirebaseAuth.instance;
+    _fireStore = FirebaseFirestore.instance;
+    //listener for authentication changes such as user sign in and sign out
+  }
+
+  Future<void> onAuthStateChanged(User? firebaseUser) async {
+    if (firebaseUser == null) {
+      _status = Status.Unauthenticated;
+    } else {
+      _userFromFirebase(firebaseUser);
+      _status = Status.Authenticated;
+    }
+    notifyListeners();
+  }
+
+  UserModel? _userFromFirebase(User? user) {
+    if (user == null) {
+      return null;
+    }
+
+    return UserModel(
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        phoneNumber: user.phoneNumber,
+        wishList: [],
+        photoUrl: user.photoURL);
+  }
+
+  Future<bool?> registerWithEmailAndPassword(
+      String email, String password, String username) async {
+    try {
+      _status = Status.Registering;
+      notifyListeners();
+      EasyLoading.show(status: 'Registering...');
+
+      final UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      if (result.user != null) {
+        await _fireStore.collection("users").doc(result.user!.uid).set({
+          "username": username,
+          "email": result.user!.email,
+          "accountType": selectedValuFromPopUpMenu,
+          "whishList": [],
+        }).then((value) {
+          usernameController.clear();
+          emailController.clear();
+          passController.clear();
+          notifyListeners();
+          EasyLoading.showSuccess("Account created");
+        });
+      }
+
+      goRouter.go("/login");
+      return true;
+    } catch (e) {
+      EasyLoading.showError("Verify your email and retry");
+      print("Error on the new user registration = " + e.toString());
+      _status = Status.Unauthenticated;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  Future<bool> signInWithEmailAndPassword(String email, String password) async {
+    try {
+      _status = Status.Authenticating;
+      notifyListeners();
+      EasyLoading.show(status: 'Signing In...');
+      final UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      if (result.user != null) {
+        await _fireStore.collection("users").doc(result.user!.uid).get().then(
+          (DocumentSnapshot doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            UserType? type = userTypeMap[data["accountType"]];
+            List<String> wishList = [];
+
+            try {
+              data["whishList"].forEach((i) {
+                wishList.add(i);
+              });
+            } catch (e) {
+              wishList = [];
+            }
+            _userModel = UserModel(
+                uid: doc.id,
+                displayName: data["username"],
+                email: data["email"],
+                wishList: wishList,
+                userType: type!);
+            // ...
+          },
+          onError: (e) => print("Error getting document: $e"),
+        );
+
+        EasyLoading.dismiss();
+      }
+
+      goRouter.go("/homepage");
+      return true;
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        if (e.code == "INVALID_LOGIN_CREDENTIALS") {
+          EasyLoading.showError("Wrong email/password combination.");
+        } else {
+          print(e.code);
+          EasyLoading.showError("Login failed. Please try again.");
+        }
+      }
+
+      _status = Status.Unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  addToWishList(String advertId) async {
+    if (isfav(advertId)) {
+      _userModel!.removeFromWishList(advertId);
+
+      await _fireStore.collection("users").doc(_userModel!.uid).update({
+        "whishList": _userModel!.wishList,
+      });
+    } else {
+      _userModel!.addToWishList(advertId);
+
+      await _fireStore.collection("users").doc(_userModel!.uid).update({
+        "whishList": _userModel!.wishList,
+      });
+    }
+    notifyListeners();
+  }
+
+  isfav(String advertId) {
+    if (_userModel!.wishList!.contains(advertId)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //Method to handle password reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _auth.sendPasswordResetEmail(email: email).then((value) async {
+      await EasyLoading.showSuccess('Email Sent!').then((value) {
+        goRouter.go("/login");
+      });
+    });
+  }
+
+  //Method to handle user signing out
+  Future signOut() async {
+    _auth.signOut();
+    _status = Status.Unauthenticated;
+    notifyListeners();
+    goRouter.go("/login");
+  }
+
+  toggleShowPassworld() {
+    _showPassworld = !_showPassworld;
+
+    notifyListeners();
+  }
+
+  init() async {
+    _loading = true;
+    // notifyListeners();
+    if (_auth.currentUser == null) {
+      _isLoggedIn = false;
       notifyListeners();
       goRouter.go("/login");
-    });
+    } else {
+      await _fireStore
+          .collection("users")
+          .doc(_auth.currentUser!.uid)
+          .get()
+          .then(
+        (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          UserType? type = userTypeMap[data["accountType"]];
+
+          List<String> wishList = [];
+
+          try {
+            data["whishList"].forEach((i) {
+              wishList.add(i);
+            });
+          } catch (e) {
+            wishList = [];
+          }
+          _userModel = UserModel(
+              uid: doc.id,
+              displayName: data["username"],
+              email: data["email"],
+              wishList: wishList,
+              userType: type!);
+          // ...
+        },
+        onError: (e) => print("Error getting document: $e"),
+      );
+      goRouter.go("/homepage");
+    }
   }
 }

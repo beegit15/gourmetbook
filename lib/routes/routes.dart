@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gourmetbook/View/HomePage/HomePage.dart';
+import 'package:gourmetbook/View/forgetPass/ForgotPass.dart';
 import 'package:gourmetbook/View/login/login.dart';
+import 'package:gourmetbook/View/signUp/signup_screen.dart';
 import 'package:gourmetbook/View/splash/splash.dart';
+
+import '../View/details/details.dart';
 
 // later home page can have more elemetns
 enum Routes {
   home,
   login,
-  invantory,
-  etage,
+  SignUp,
+  PassRecovery,
+  details,
   etiquetage,
   rapidRead,
   about,
@@ -25,10 +31,10 @@ enum Routes {
   static Map<Routes, String> get _routes => {
         Routes.splash: '/',
         Routes.home: '/homepage',
-        Routes.invantory: '/invantory',
+        Routes.PassRecovery: '/PassRecovery',
         Routes.etiquetage: '/etiquetage',
         Routes.settings: '/settings',
-        Routes.etage: '/etage',
+        Routes.details: '/details',
         Routes.rapidRead: '/rapidRead',
         Routes.about: '/about',
         Routes.readers: '/settings/readers',
@@ -38,13 +44,18 @@ enum Routes {
         Routes.batterie: '/settings/batterie',
         Routes.findAsset: '/findAsset',
         Routes.profiles: '/settings/profiles',
+        Routes.SignUp: '/signUp',
         Routes.login: '/login'
       };
 
   static Map<Routes, Widget Function(BuildContext context, GoRouterState state)>
       get _builders => {
-            Routes.login: (context, state) => LoginScreen(),
+            Routes.login: (context, state) => const LoginScreen(),
+            Routes.SignUp: (context, state) => const SignUpScreen(),
             Routes.splash: (context, state) => const Splash(),
+            Routes.home: (context, state) => HomePage(),
+            Routes.PassRecovery: (context, state) => ForgotPass(),
+            Routes.details: (context, state) => Details(),
           };
 
   static String getRoute(Routes route) => _routes[route]!;

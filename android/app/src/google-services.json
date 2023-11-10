@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1028649087459",
+    "project_id": "gourmetbook-649e9",
+    "storage_bucket": "gourmetbook-649e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1028649087459:android:5646ec5891d923c59f70d6",
+        "android_client_info": {
+          "package_name": "com.example.gourmetbook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO4VRKleqQ1eIqIgH8agc4zT2kcndEDqs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

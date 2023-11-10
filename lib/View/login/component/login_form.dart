@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gourmetbook/Providers/authProvider.dart';
 import 'package:gourmetbook/View/signUp/signup_screen.dart';
 import 'package:gourmetbook/helpers/const.dart';
+import 'package:gourmetbook/routes/goRouter.dart';
 import 'package:gourmetbook/widgets/alreadyHaveAccount.dart';
 import 'package:gourmetbook/widgets/buttton.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +20,7 @@ class LoginForm extends StatelessWidget {
       child: Column(
         children: [
           TextFormField(
+            controller: authProvider.emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: kPrimaryColor,
@@ -33,6 +36,7 @@ class LoginForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              controller: authProvider.passController,
               textInputAction: TextInputAction.done,
               obscureText: authProvider.showPassworld,
               cursorColor: kPrimaryColor,
@@ -48,11 +52,13 @@ class LoginForm extends StatelessWidget {
                       onTap: () {
                         //change the passworld
                         authProvider.toggleShowPassworld();
-                        print("fuuuck");
                       },
-                      child: Icon(authProvider.showPassworld
-                          ? Icons.visibility
-                          : Icons.visibility_off)),
+                      child: Icon(
+                        authProvider.showPassworld
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: kPrimaryColor,
+                      )),
                 ),
               ),
             ),
@@ -62,14 +68,7 @@ class LoginForm extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SignUpScreen();
-                      },
-                    ),
-                  );
+                  goRouter.push("/PassRecovery");
                 },
                 child: const Text(
                   "forget your passworld ?",
@@ -87,7 +86,11 @@ class LoginForm extends StatelessWidget {
                 Color.fromARGB(255, 14, 119, 247),
               ]),
               borderRadius: BorderRadius.circular(20),
-              onPressed: () {},
+              onPressed: () {
+                authProvider.signInWithEmailAndPassword(
+                    authProvider.emailController.value.text,
+                    authProvider.passController.value.text);
+              },
               child: Text(
                 "Login".toUpperCase(),
               ),
@@ -96,14 +99,7 @@ class LoginForm extends StatelessWidget {
           const SizedBox(height: defaultPadding),
           AlreadyHaveAnAccountCheck(
             press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SignUpScreen();
-                  },
-                ),
-              );
+              goRouter.push("/signUp");
             },
           ),
         ],

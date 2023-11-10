@@ -1,16 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:gourmetbook/helpers/const.dart';
 import 'package:gourmetbook/widgets/backgroung.dart';
 import 'package:gourmetbook/widgets/sign_up_top_image.dart';
-import 'package:gourmetbook/widgets/signup_form.dart';
+import 'package:gourmetbook/View/signUp/component/signup_form.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Background(
-      child: SingleChildScrollView(
-        child: MobileSignupScreen(),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Center(
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: defaultPadding * 2,
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: SignUpForm()),
+                  // LoginAndSignupBtn(),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -23,18 +51,18 @@ class MobileSignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SignUpScreenTopImage(),
+        const SignUpScreenTopImage(),
         Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Expanded(
               flex: 8,
               child: SignUpForm(),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
         // const SocalSignUp()

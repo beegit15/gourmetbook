@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gourmetbook/helpers/const.dart';
-import 'package:gourmetbook/widgets/login_form.dart';
+import 'package:gourmetbook/View/login/component/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

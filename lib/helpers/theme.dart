@@ -21,7 +21,7 @@ class themeData {
         iconColor: kPrimaryColor,
         prefixIconColor: kPrimaryColor,
         contentPadding: EdgeInsets.symmetric(
-            horizontal: defaultPadding, vertical: defaultPadding),
+            horizontal: defaultPadding, vertical: defaultPadding - 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
           borderSide: BorderSide.none,
