@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gourmetbook/Providers/HomeProvider.dart';
 import 'package:gourmetbook/Providers/authProvider.dart';
 import 'package:gourmetbook/generation/assets.gen.dart';
 import 'package:gourmetbook/helpers/const.dart';
@@ -8,6 +9,8 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var authProvider = Provider.of<Auth>(context, listen: true);
+    var hoomeProvider = Provider.of<homeProvider>(context, listen: true);
+
     return SafeArea(
       child: Scaffold(
           body: Container(

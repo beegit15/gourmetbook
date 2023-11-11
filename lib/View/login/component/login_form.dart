@@ -71,7 +71,7 @@ class LoginForm extends StatelessWidget {
                   goRouter.push("/PassRecovery");
                 },
                 child: const Text(
-                  "forget your passworld ?",
+                  "forgot your password ?",
                   style: TextStyle(color: kPrimaryColor),
                 ),
               ),
