@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gourmetbook/Providers/HomeProvider.dart';
 import 'package:gourmetbook/Providers/authProvider.dart';
+import 'package:gourmetbook/View/Payment/PaymentMethod.dart';
 import 'package:gourmetbook/generation/assets.gen.dart';
 import 'package:gourmetbook/helpers/const.dart';
 import 'package:provider/provider.dart';
@@ -113,12 +114,16 @@ class Profile extends StatelessWidget {
                   Card(
                     color: Colors.white70,
                     margin:
-                    const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                        const EdgeInsets.only(left: 35, right: 35, bottom: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     child: InkWell(
-                      onTap: (){
-
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentMethodView()),
+                        );
                       },
                       child: const ListTile(
                         leading: Icon(
