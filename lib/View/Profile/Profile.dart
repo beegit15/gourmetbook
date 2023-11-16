@@ -114,6 +114,33 @@ class Profile extends StatelessWidget {
                   Card(
                     color: Colors.white70,
                     margin:
+                    const EdgeInsets.only(left: 35, right: 35, bottom: 10),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    child: InkWell(
+                      onTap: (){
+
+                      },
+                      child: const ListTile(
+                        leading: Icon(
+                          Icons.credit_card,
+                          color: Colors.black54,
+                        ),
+                        title: Text(
+                          'Payment Method',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_outlined),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                    color: Colors.white70,
+                    margin:
                         const EdgeInsets.only(left: 35, right: 35, bottom: 10),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
