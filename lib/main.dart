@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gourmetbook/.env.dart';
 import 'package:gourmetbook/Providers/HomeProvider.dart';
 import 'package:gourmetbook/Providers/ReservationProvider.dart';
 import 'package:gourmetbook/Providers/addRestoEventsprovider.dart';
@@ -16,9 +17,12 @@ import 'package:gourmetbook/View/login/component/login_form.dart';
 import 'package:gourmetbook/widgets/login_signup_btn.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
+  await Stripe.instance.applySettings();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
